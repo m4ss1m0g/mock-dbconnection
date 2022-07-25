@@ -5,6 +5,7 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build_and_publish:
@@ -24,7 +25,7 @@ jobs:
       run: dotnet build --no-restore --configuration Release
       working-directory: ./src/MockDbConnection
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --verbosity normal
       working-directory: ./test/MockDbConnection.Test
     # Nuget 
     - name: Get package version
@@ -38,7 +39,8 @@ jobs:
       with:
          nuget-api-key: ${{ secrets.NUGET_APIKEY }}
     - name: Create .nupkg
-      run: nuget pack ./src/MockDbConnection/MockDbConnection.nuspec
+      run: nuget pack MockDbConnection.nuspec
+      working-directory: ./src/MockDbConnection
     - name: Publish package
       run: nuget push MockDbConnection.${{steps.getnuspec.outputs.info}}.nupkg -Source https://api.nuget.org/v3/index.json
       working-directory: ./src/MockDbConnection
