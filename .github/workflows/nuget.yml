@@ -38,7 +38,7 @@ jobs:
       with:
          nuget-api-key: ${{ secrets.NUGET_APIKEY }}
     - name: Create .nupkg
-      run: nuget pack /src/MockDbConnection/MockDbConnection.nuspec
+      run: nuget pack ./src/MockDbConnection/MockDbConnection.nuspec
     - name: Publish package
       run: nuget push MockDbConnection.${{steps.getnuspec.outputs.info}}.nupkg -Source https://api.nuget.org/v3/index.json
       working-directory: ./src/MockDbConnection
