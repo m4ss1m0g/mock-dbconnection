@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>MockDbConnection</id>
+    <version>0.1.0</version>
+    <title>MockDbConnection</title>
+    <authors>mgiambona</authors>
+    <owners>mgiambona</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/m4ss1m0g/mock-dbconnection/</projectUrl>
+    <repository type="git" url="https://github.com/m4ss1m0g/mock-dbconnection.git" />
+    <description>
+      With this package you can mock the DbConnection class and retrive all SQL command sended to the connection. 
+      Useful to unit test with Dapper
+    </description>
+    <releaseNotes>Initial release</releaseNotes>
+    <copyright>Copyright 2022</copyright>
+    <icon>Images\logo.png</icon>
+    <tags>Sql Dapper UnitTest XUnit Moq Fake</tags>
+    <dependencies>
+      <group targetFramework="net6.0">
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="Images\logo.png" target="Images\"/>
+    <file src="bin\release\net6.0\MockDbConnection.dll" target="lib\net6.0" />
+  </files>
+</package>
