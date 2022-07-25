@@ -1,0 +1,46 @@
+name: NuGet
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build_and_publish:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: ./src/MockDbConnection
+    - name: Build
+      run: dotnet build --no-restore
+      working-directory: ./src/MockDbConnection
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+      working-directory: ./test/MockDbConnection.Test
+    # Nuget 
+    - name: Get package version
+      id: getnuspec
+      uses: mavrosxristoforos/get-xml-info@1.1.0
+      with:
+        xml-file: 'src/MockDbConnection/MockDbConnection.nuspec'
+        xpath: '//package/metadata/version'
+    - name: Setup NuGet.exe for use with actions
+      uses: NuGet/setup-nuget@v1.0.6
+      with:
+         nuget-api-key: ${{ secrets.NUGET_APIKEY }}
+    - name: Create .nupkg
+      run: nuget pack MockDbConnection.nuspec
+      working-directory: ./src/MockDbConnection
+    - name: Publish package
+      run: nuget push MockDbConnection.${{steps.getnuspec.outputs.info}}.nupkg -Source https://api.nuget.org/v3/index.json
+      working-directory: ./src/MockDbConnection
+        
